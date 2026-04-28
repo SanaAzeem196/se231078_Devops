@@ -1,0 +1,28 @@
+Application Configuration & Setup
+================================
+
+Application Name: DevOps Pipeline Manager
+Version: 1.0.0
+Author: Student ID se231078
+
+Dependencies:
+- Docker 20.10+
+- Kubernetes 1.21+
+- Python 3.9+
+- Jenkins 2.361+
+
+Environment Variables:
+DOCKER_REGISTRY=hub.docker.com
+KUBE_CLUSTER=production-cluster
+LOG_LEVEL=INFO
+
+Port Configuration:
+API Server: 8080
+Metrics Server: 9090
+Database: 5432
+
+Initialization:
+1. Clone the repository
+2. Configure environment variables
+3. Build Docker images
+4. Deploy to Kubernetes cluster

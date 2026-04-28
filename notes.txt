@@ -1,0 +1,40 @@
+DevOps Assignment 1 - Learning Notes
+====================================
+
+Key Concepts Covered:
+
+1. Infrastructure as Code (IaC)
+   - Terraform basics
+   - CloudFormation templates
+   - Configuration management
+
+2. CI/CD Pipelines
+   - Jenkins pipeline setup
+   - GitHub Actions workflow
+   - Automated testing and deployment
+
+3. Containerization
+   - Docker fundamentals
+   - Container orchestration with Kubernetes
+   - Microservices architecture
+
+4. Monitoring & Logging
+   - Prometheus metrics
+   - ELK Stack implementation
+   - Alert management
+
+5. Best Practices
+   - Version control with Git
+   - Code review processes
+   - Security hardening
+   - Disaster recovery planning
+
+Challenge Areas:
+- Kubernetes deployment complexity
+- Managing multiple environments
+- Cost optimization
+
+Resources:
+- Official Docker documentation
+- Kubernetes tutorials
+- DevOps best practices guide
