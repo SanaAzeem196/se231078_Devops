@@ -1,0 +1,13 @@
+{
+  "name": "hello-world-app",
+  "version": "1.0.0",
+  "description": "Simple Node.js HTTP server for DevOps Assignment",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "keywords": ["devops", "docker", "nodejs"],
+  "author": "",
+  "license": "MIT"
+}
