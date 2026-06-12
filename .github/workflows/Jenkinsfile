@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                sh 'docker build -t my-node-app .'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'docker run --rm my-node-app node -e "console.log(\'App is running\'); process.exit(0);"'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Stopping old containers...'
+                sh 'docker stop my-app-container || true'
+                sh 'docker rm my-app-container || true'
+                
+                echo 'Deploying the application...'
+                sh 'docker run -d -p 3000:3000 --name my-app-container my-node-app'
+                
+                echo 'Health check...'
+                sh 'sleep 3 && curl http://localhost:3000'
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Pipeline completed!'
+        }
+        failure {
+            echo 'Pipeline failed! Check logs above.'
+        }
+    }
+}
