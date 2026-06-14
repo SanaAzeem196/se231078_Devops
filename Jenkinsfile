@@ -1,7 +1,13 @@
 pipeline {
     agent any
-
+    
     stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out code...'
+                checkout scm
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building the application...'
@@ -14,6 +20,7 @@ pipeline {
                 sh 'docker run --rm my-node-app node -e "console.log(\'App is running\'); process.exit(0);"'
             }
         }
+        
         stage('Deploy') {
             steps {
                 echo 'Stopping old containers...'
@@ -29,6 +36,7 @@ pipeline {
         }
     }
     
+
     post {
         always {
             echo 'Pipeline completed!'
