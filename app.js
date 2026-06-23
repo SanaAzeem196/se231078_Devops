@@ -1,7 +1,7 @@
 const http=require('http');
 const server=http.createServer((req,res)=>{
     if(req.url==='/'){
-        res.write('Hello World from jenkins auto pipeline');
+        res.write('Hello World from jenkins automated pipeline');
         res.end();
     }
 });
