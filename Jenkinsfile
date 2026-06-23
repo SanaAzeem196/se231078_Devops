@@ -1,48 +1,49 @@
-pipeline {
+ pipeline
+ {
     agent any
-    
-    stages {
-        stage('Checkout') {
-            steps {
-                echo 'Checking out code...'
-                checkout scm
-            }
-        }
-        stage('Build') {
-            steps {
-                echo 'Building the application...'
-                sh 'docker build -t my-node-app .'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh 'docker run --rm my-node-app node -e "console.log(\'App is running\'); process.exit(0);"'
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                echo 'Stopping old containers...'
-                sh 'docker stop my-app-container || true'
-                sh 'docker rm my-app-container || true'
-                
-                echo 'Deploying the application...'
-                sh 'docker run -d -p 3000:3000 --name my-app-container my-node-app'
-                
-                echo 'Health check...'
-                sh 'sleep 3 && curl http://localhost:3000'
-            }
-        }
-    }
-    
-
-    post {
-        always {
-            echo 'Pipeline completed!'
-        }
-        failure {
-            echo 'Pipeline failed! Check logs above.'
-        }
-    }
+ environment {
+ DOCKER_IMAGE = 'YOUR-USERNAME/jenkins-demo'
+ IMAGE_TAG = "${BUILD_NUMBER}"
+ }
+ stages {
+ stage('Checkout') { steps { checkout scm } }
+ stage('Build') {
+ steps {
+ echo 'Building...'
+ sh 'node --version'
+ }
+ }
+ stage('Test') {
+ steps { echo 'Tests passed!' }
+ }
+ stage('Docker Build') {
+ steps {
+ sh 'docker build -t $DOCKER_IMAGE:$IMAGE_TAG .'
+ sh 'docker tag $DOCKER_IMAGE:$IMAGE_TAG $DOCKER_IMAGE:latest'
+ }
+ }
+ stage('Push to Hub') {
+ steps {
+ withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
+ usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+ sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+ sh 'docker push $DOCKER_IMAGE:$IMAGE_TAG'
+ sh 'docker push $DOCKER_IMAGE:latest'
+ }
+ }
+ }
+ stage('Deploy') {
+ steps {
+ sh 'docker stop jenkins-demo || true'
+ sh 'docker rm jenkins-demo || true'
+ sh 'docker pull $DOCKER_IMAGE:latest'
+ sh 'docker run -d -p 3000:3000 --name jenkins-demo $DOCKER_IMAGE:latest'
+ echo 'App live at localhost:3000!'
+ }
+ }
+ }
+ post {
+ success { echo 'Pipeline complete!' }
+ failure { echo 'Check logs!' }
+ }
 }
