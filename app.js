@@ -1,7 +1,7 @@
 const http=require('http');
 const server=http.createServer((req,res)=>{
     if(req.url==='/'){
-        res.write('Hello World from lecture 12+++');
+        res.write('Hello World from lecture 12++++');
         res.end();
     }
 });
