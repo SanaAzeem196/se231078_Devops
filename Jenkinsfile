@@ -2,7 +2,7 @@
  {
     agent any
  environment {
- DOCKER_IMAGE = 'YOUR-USERNAME/jenkins-demo'
+ DOCKER_IMAGE = 'sana196/jenkins-demo'
  IMAGE_TAG = "${BUILD_NUMBER}"
  }
  stages {
